@@ -160,6 +160,16 @@ in {
       };
     } ./setuptools-check-hook.sh) {};
 
+  setuptoolsRustBuildHook = callPackage ({ makePythonHook, setuptools-rust, rust }:
+    makePythonHook {
+      name = "setuptools-rust-setup-hook";
+      propagatedBuildInputs = [ setuptools-rust ];
+      substitutions = {
+        pyLibDir = "${python}/lib/${python.libPrefix}";
+        cargoBuildTarget = rust.toRustTargetSpec stdenv.hostPlatform;
+      };
+    } ./setuptools-rust-hook.sh) {};
+
   unittestCheckHook = callPackage ({ makePythonHook }:
     makePythonHook {
       name = "unittest-check-hook";

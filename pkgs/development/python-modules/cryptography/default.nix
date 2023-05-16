@@ -6,7 +6,7 @@
 , rustPlatform
 , cargo
 , rustc
-, setuptools-rust
+, setuptoolsRustBuildHook
 , openssl
 , Security
 , packaging
@@ -58,13 +58,12 @@ buildPythonPackage rec {
     cffi
     pkg-config
   ] ++ [
-    rustPlatform.cargoSetupHook
-    setuptools-rust
+    setuptoolsRustBuildHook
     cargo
     rustc
   ];
 
-  buildInputs = [ openssl ]
+  buildInputs = [ openssl rustPlatform.cargoSetupHook ]
     ++ lib.optionals stdenv.isDarwin [ Security libiconv ]
     ++ lib.optionals (pythonOlder "3.9") [ libxcrypt ];
 
